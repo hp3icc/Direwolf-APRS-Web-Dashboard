@@ -1,0 +1,83 @@
+Dire Wolf version 1.7
+Includes optional support for:  hamlib cm108-ptt dns-sd
+
+Reading config file /etc/direwolf.conf
+Audio input device for receive: stdin  (channel 0)
+Audio out device for transmit: default  (channel 0)
+Audio device for both receive and transmit: plughw:1,0  (channel 4)
+Channel 0: 1200 baud, AFSK 1200 & 2200 Hz, A+, 24000 sample rate.
+Channel 4: 1200 baud, AFSK 1200 & 2200 Hz, A+, 44100 sample rate.
+Hamlib determined CAT control serial port rate of 38400.
+User configuration overriding hamlib CAT control speed to 9600.
+Note: PTT not configured for channel 0. (Ignore this if using VOX.)
+Ready to accept AGW client application 0 on port 8000 ...
+Ready to accept KISS TCP client application 0 on port 8001 ...
+DNS-SD: Avahi: Announcing KISS TCP on port 8001 as 'Dire Wolf on igate'
+DNS-SD: Avahi: Service 'Dire Wolf on igate' successfully registered.
+
+Now connected to IGate server euro.aprs2.net (84.232.6.113)
+Check server status here http://84.232.6.113:14501
+
+[rx>ig] user PC7MM pass xxxxx vers Dire-Wolf 1.7
+[ig] # aprsc 2.1.19-g730c5c0
+[ig] # logresp PC7MM verified, server T2SPAIN
+
+PTT 4 = 1
+[4L] PC7MM-13>APDW17:!5205.24NI00452.94E#PC7MM iGate | DireWolf 1.6 | for testing purposes
+------
+U frame UI: p/f=0, No layer 3 protocol implemented., length = 85
+ dest    APDW17  0 c/r=1 res=3 last=0
+ source  PC7MM  13 c/r=1 res=3 last=1
+  000:  82 a0 88 ae 62 6e e0 a0 86 6e 9a 9a 40 fb 03 f0  ....bn...n..@...
+  010:  21 35 32 30 35 2e 32 34 4e 49 30 30 34 35 32 2e  !5205.24NI00452.
+  020:  39 34 45 23 50 43 37 4d 4d 20 69 47 61 74 65 20  94E#PC7MM iGate 
+  030:  7c 20 44 69 72 65 57 6f 6c 66 20 31 2e 36 20 7c  | DireWolf 1.6 |
+  040:  20 66 6f 72 20 74 65 73 74 69 6e 67 20 70 75 72   for testing pur
+  050:  70 6f 73 65 73                                   poses
+------
+PTT 4 = 0
+DCD 4 = 1
+
+PI1DRV audio level = 34(8/4)    ___||||__
+[4.4] PI1DRV>APDW14:!5212.49NT00452.90E#PHG2160/Digi Mijdrecht (DireWolf 1.4)
+------
+U frame UI: p/f=0, No layer 3 protocol implemented., length = 73
+ dest    APDW14  0 c/r=1 res=3 last=0
+ source  PI1DRV  0 c/r=1 res=3 last=1
+  000:  82 a0 88 ae 62 68 e0 a0 92 62 88 a4 ac e1 03 f0  ....bh...b......
+  010:  21 35 32 31 32 2e 34 39 4e 54 30 30 34 35 32 2e  !5212.49NT00452.
+  020:  39 30 45 23 50 48 47 32 31 36 30 2f 44 69 67 69  90E#PHG2160/Digi
+  030:  20 4d 69 6a 64 72 65 63 68 74 20 28 44 69 72 65   Mijdrecht (Dire
+  040:  57 6f 6c 66 20 31 2e 34 29                       Wolf 1.4)
+------
+Position, OVERLAY DIGI (green star) w/overlay T, DireWolf, WB2OSZ, 4 W height(HAAT)=20ft=6m 6dBi omni
+N 52 12.4900, E 004 52.9000
+/Digi Mijdrecht (DireWolf 1.4)
+
+[rx>ig] PI1DRV>APDW14,qAO,PC7MM-13:!5212.49NT00452.90E#PHG2160/Digi Mijdrecht (DireWolf 1.4)
+DCD 4 = 0
+
+[ig>tx] PI1DRV>APDW14,TCPIP*,qAC,T2DENMARK:!5212.49NT00452.90E#
+DCD 4 = 1
+
+PA1JRN-9 audio level = 28(5/3)    ____|||__
+[4.5] PA1JRN-9>UR0UR3,WIDE1-1,WIDE2-1:`{[Xl+d>/`"3\}Jeroen_on_air_$<0x0d>
+------
+U frame UI: p/f=0, No layer 3 protocol implemented., length = 60
+ dest    UR0UR3  0 c/r=0 res=3 last=0
+ source  PA1JRN  9 c/r=1 res=3 last=0
+ digi 1  WIDE1   1   h=0 res=3 last=0
+ digi 2  WIDE2   1   h=0 res=3 last=1
+  000:  aa a4 60 aa a4 66 60 a0 82 62 94 a4 9c f2 ae 92  ..`..f`..b......
+  010:  88 8a 62 40 62 ae 92 88 8a 64 40 63 03 f0 60 7b  ..b@b....d@c..`{
+  020:  5b 58 6c 2b 64 3e 2f 60 22 33 5c 7d 4a 65 72 6f  [Xl+d>/`"3\}Jero
+  030:  65 6e 5f 6f 6e 5f 61 69 72 5f 24 0d              en_on_air_$.
+------
+MIC-E, normal car (side view), Yaesu FT1D, En Route
+N 52 05.2300, E 005 03.6000, 2 km/h (1 MPH), course 172, alt -22 m (-72 ft)
+Jeroen_on_air
+Rx IGate: Truncated information part at CR.
+[rx>ig] PA1JRN-9>UR0UR3,WIDE1-1,WIDE2-1,qAO,PC7MM-13:`{[Xl+d>/`"3\}Jeroen_on_air_$
+DCD 4 = 0
+DCD 4 = 1
+

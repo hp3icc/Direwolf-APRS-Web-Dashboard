@@ -1,0 +1,174 @@
+/*
+// This file is part of the Direwolf APRS Web Dashboard as available at https://github.com/PC7MM/Direwolf-APRS-Web-Dashboard
+// Developed by Michael PC7MM and Richard PD3RFR as an extension of https://github.com/IZ7BOJ/direwolf_webstat and https://github.com/IZ7BOJ/APRS_dashboard as developed by Alfredo IZ7BOJ
+// See config.php for adjustable parameters
+*/
+
+body {
+ background-color: #E9F1E2;
+}
+
+.menu {
+ overflow: hidden;
+ position: fixed; 
+ background-color: #E9F1E2;
+ top: 0;
+ width: 100%; 
+ font-size: 12px;
+}
+
+.page {
+ margin-top: 160px;
+ font-size: 12px;
+}
+
+.normaltable {
+ border-collapse: collapse;
+}
+
+th {
+  background-color: orange;
+  vertical-align: top;
+  border: 1px solid black;
+  color: black;
+ }
+
+td {
+  text-align: center;
+  vertical-align: top;
+  border: 1px solid black;
+  color: black;
+ }
+
+.framestable {
+ width: 100%;
+}
+
+.indextable {
+ width: 60%
+ }
+
+.igatetable {
+ width: 60%
+ }
+
+.systemtable {
+ width: 30%;
+}
+
+.traffic {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.station, .frames
+ a:link {
+  font-weight: bold;
+  color: black;
+}
+
+.static {
+ color: purple;
+}
+
+.moving {
+ color: orange;
+}
+
+.digidirect {
+ color: blue;
+}
+
+.direct {
+ color: red;
+}
+
+.digi {
+ color: green;
+}
+
+.menu a:link, a:visited {
+ background-color: #D1E0C7;
+ color: black;
+ padding: 5px 5px;
+ text-align: center;
+ text-decoration: none;
+ display: inline-block;
+ border-radius: 5px;
+}
+
+.menu a:hover, a:active {
+ background-color: orange;
+}
+
+a:link, a:visited {
+  text-decoration: none;
+  color: black; 
+}
+
+a:hover, a:active {
+ text-decoration: underline;
+ background-color: orange;
+ color: black;
+}
+
+.fileshrinked {
+ background-color: red;
+ color: white;
+ font-weight: bold;
+}
+
+.fileupdated {
+ background-color: green;
+ color: white;
+ font-weight: bold;
+}
+
+.startedlogging {
+ background-color: blue;
+ color: white;
+ font-weight: bold;
+}
+
+.checkboxline {
+ background-color: #E9F1E2;
+ position: fixed;
+ width: 100%;
+ left: 50%;
+ transform: translate(-50%);
+ text-align: center;
+ top: 150px;
+}
+
+.notrunning {
+ font-weight: bold;
+ color: red;
+}
+
+.running {
+ font-weight: bold;
+ color: green;
+}
+
+.aprspath {
+ font-weight: bold;
+ color: blue;
+}
+
+.aprsisobject {
+ border: 1px solid black;
+ width: 75%;
+ height: calc(100vh - 275px);
+}
+
+.aprsmapobject {
+ border: 1px solid black;
+ width: 60%;
+ height: calc(100vh - 350px);
+}
+
+.console {
+ font-family: Courier New;
+ white-space: pre;
+}
+
