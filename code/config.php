@@ -16,7 +16,7 @@ $refresh = 5000;
 $dashboarddescription = "Direwolf APRS Web Dashboard";
 
 // for header.php and about.php: displays version of the APRS dashboard web interface
-$dashboardversion = "20250226 beta";
+$dashboardversion = "20250313 beta";
 
 // for system.php: if direwolf version cannot be determined via installed apt package, manually enter direwolf version here
 $direwolfversion = "1.7";
