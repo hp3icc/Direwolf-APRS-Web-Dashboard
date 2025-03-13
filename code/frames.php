@@ -6,7 +6,7 @@
 include 'initialize.php';
 
 if (isset($_SESSION['callsign'])) $callsign = $_SESSION['callsign']; else $callsign="";
-$header = str_getcsv($logfile[0]);
+$header = str_getcsv($logfile[0],escape: "\\");
 $framesoninterface=0;
 
 $htmloutput='<th>Date</th><th class="onload-sort order-by-desc">Time(Z)</th>';
@@ -20,7 +20,7 @@ if (isset($callsign) and ($callsign !== "")) {
 
         while($counter < $linesinlog) { 
 		$line = $logfile[$counter];
-                $parts = str_getcsv($line,","); //split all fields
+                $parts = str_getcsv($line,",",escape: "\\"); //split all fields
                 if (str_contains(strtoupper($parts[8]),$callsign) and ($parts[0]==$_SESSION['if'])) { // str_contains for implicit wildcard search
 			$htmloutput.='<tr><td>'.substr($parts[2],0,strpos($parts[2],"T")).'</td><td>'.substr($parts[2],-strpos($parts[2],"T")+1,-1).'</td>';
                         for ($c=3; $c < count($parts)-1; $c++) { $htmloutput.='<td>'.$parts[$c].'</td>'; }
