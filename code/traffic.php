@@ -36,7 +36,7 @@ if (isset($_GET['ajax'])) {
 
 function showrow($row) {
 	global $displayallchannels;
-	$fields=str_getcsv($row,",");
+	$fields=str_getcsv($row,",",escape = "\\");
 	$channel=$fields[0];
 	$timestamp=$fields[2];
     	$source=$fields[3];
