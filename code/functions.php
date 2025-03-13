@@ -36,9 +36,9 @@ function cmp($a, $b) { // custom sorting function
 }
 
 function utilcpu() {
-        $cpu1 = str_getcsv(shell_exec("cat /proc/stat | grep 'cpu '")," ");
+        $cpu1 = str_getcsv(shell_exec("cat /proc/stat | grep 'cpu '")," ",escape: "\\");
         sleep(2); // wait for two seconds to create difference in cpu utilization metrics
-        $cpu2 = str_getcsv(shell_exec("cat /proc/stat | grep 'cpu '")," ");
+        $cpu2 = str_getcsv(shell_exec("cat /proc/stat | grep 'cpu '")," ",escape: "\\");
 	// idle = idle + iowait
 	// busy = user + nice + system + irq + softirq + steal
         $idle1 = $cpu1[5]+$cpu1[6];
@@ -86,7 +86,7 @@ function stationparse($frame) { //function for parsing station information
 	if($frame[0]==$if) //if frame received on selected radio interface
 	{
 		$framesoninterface++;
-		$frame=str_getcsv($frame,",");
+		$frame=str_getcsv($frame,",",escape: "\\");
 		$utime = $frame[1];
 		if($utime > $time) { //if frame was received in time range
 			$stationcall = strtoupper($frame[8]);

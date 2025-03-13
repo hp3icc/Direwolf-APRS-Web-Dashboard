@@ -36,7 +36,7 @@ if(isset($_GET['ajax'])) {
 	$clientipshtml="";
 	foreach ($clientips as $clientip) { $clientipshtml.='<a href="'.$clientiplookuphost.$clientip.'" target="_new">'.$clientip."</a><br>"; }
 
-	$memoryinfo = str_getcsv(shell_exec('/usr/bin/free -m | grep "Mem:" | tr -s " "')," ");
+	$memoryinfo = str_getcsv(shell_exec('/usr/bin/free -m | grep "Mem:" | tr -s " "')," ",escape: "\\");
 
 	$aprsisserverip = shell_exec('netstat -n | grep '.$aprsisserverport.' | grep ESTABLISHED | head -n 1 | tr -s " " | cut -f 5 -d " " | cut -f 1 -d ":" | tr -d "\n"');
 
