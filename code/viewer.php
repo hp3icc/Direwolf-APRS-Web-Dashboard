@@ -5,17 +5,22 @@
 
 include 'initialize.php';
 
-$handle = fopen($consolelog, 'rb');
+if (file_exists($consolelog)) $handle = fopen($consolelog, 'rb');
 if (!isset($_SESSION['offsetfile'])) $_SESSION['offsetfile']=0;
 
 if (isset($_GET['ajax'])) {
+	if (!is_file($consolelog)) {
+        	echo ('<div class="console"><BR><center>Logfile is empty or does not exist</center></div>');
+		exit();
+	}
+
 	$readbytes=max((filesize($consolelog)-$maxreadbytes),$_SESSION['offsetfile']);
         $data = stream_get_contents($handle, -1 , $readbytes);
         if (filesize($consolelog) > $_SESSION['offsetfile'])  {
 		$_SESSION['offsetfile'] = filesize($consolelog);
 		if (substr($data,-1)=="\n") { $data=substr($data,0,-1); }
 		$newdata=str_replace("\n","<BR>",$data);
-		if ($display_datestamps==1) { 
+		if ($display_datestamps==1) {
 			$newdata.="<BR><div class=\"fileupdated\">".date('d-m-y h:i:s')." | File updated | New file size: ".filesize($consolelog)." | ";
 			$newdata.="Read from file: ".(filesize($consolelog)-$readbytes)." new bytes</div><BR>";
 		}
@@ -31,6 +36,7 @@ if (isset($_GET['ajax'])) {
 	unset($_SESSION['offsetfile']);
 }
 include('menu.php');
+
 ?>
 <div id="page" class="page">
 <div class="checkboxline">
@@ -39,8 +45,9 @@ Enable <b>automatic scroll down</b> after every refresh <input id="scrolldown" n
 
 </div>
 <BR><div class="startedlogging">
-<?php 
-	echo(date('d-m-y h:i:s')." | File: ".$consolelog." | File size: ".filesize($consolelog)." bytes | Max bytes read from file per update: ".$maxreadbytes); 
+<?php
+	if (filesize($consolelog)>0) $consolelogsize=filesize($consolelog); else $consolelogsize="0";
+	echo(date('d-m-y h:i:s')." | File: ".$consolelog." | File size: ".$consolelogsize." bytes | Max bytes read from file per update: ".$maxreadbytes);
 ?>
 </div>
 <div id="ajaxcontent"></div>
