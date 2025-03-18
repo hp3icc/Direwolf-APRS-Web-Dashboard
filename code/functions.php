@@ -158,4 +158,194 @@ function secondsToTime($seconds) { // converts an amount of seconds to a time di
     return $dtF->diff($dtT)->format('%d:%H:%I:%S');
 }
 
-?>
+function report_sysver() { // reports windows/linux operating system version
+	if (str_contains(PHP_OS, 'WIN')) {
+		return (explode("=",shell_exec("wmic os get Caption /value")))[1];
+	} elseif (str_contains(PHP_OS, 'Linux')) {
+		return shell_exec ("cat /etc/os-release | grep PRETTY_NAME |cut -d '=' -f 2");
+	} else {
+		return "Operating System not supported";
+	}
+}
+
+function report_kernelver() { // reports windows/linux (kernel) version
+	if (str_contains(PHP_OS, 'WIN')) {
+		return substr(explode("[",exec("ver"))[1],0,-1);
+	} elseif (str_contains(PHP_OS, 'Linux')) {
+		return shell_exec ("uname -r");
+	} else {
+		return "Operating System not supported";
+	}
+}
+
+function report_direwolfversion() { // reports windows/linux direwolf version
+	global $direwolfversion;
+	if (str_contains(PHP_OS, 'WIN')) {
+		if ($direwolfversion=="") {
+			$direwolffileversion=shell_exec('powershell "@(get-process direwolf -FileVersionInfo)[0].FileVersion"');
+			$direwolfprodversion=shell_exec('powershell "@(get-process direwolf -FileVersionInfo)[0].ProductVersion"');
+			if (strlen($direwolffileversion)!=0) {
+				return $direwolffileversion;
+			} elseif (strlen($direwolfprodversion)!=0) {
+				return $direwolfprodversion;
+			} else {
+				return '<span class="notrunning">Cannot be determined, please specify manually in config.php</span>';
+			}
+		} else {
+			return $direwolfversion;
+		}
+	} elseif (str_contains(PHP_OS, 'Linux')) {
+		if ($direwolfversion=="") {
+			$direwolfver = shell_exec ("apt-cache policy direwolf | grep -m 1 'Installed' | cut -d ' ' -f 4");
+			if (str_contains($direwolfver,"(none)")) return '<span class="notrunning">Cannot be determined, please specify manually in config.php</span>';
+		} else {
+			return $direwolfversion;
+		}
+	} else {
+		return "Operating System not supported";
+	}
+}
+
+function report_uptime() { // reports windows/linux sytem uptime
+	if (str_contains(PHP_OS, 'WIN')) {
+		$uptimeseconds=intval(shell_exec('powershell "@((get-date) - (gcim Win32_OperatingSystem).LastBootUpTime)[0].TotalSeconds"'));
+		$dtZero = new \DateTime('@0');
+		$dtTime = new \DateTime("@$uptimeseconds");
+		return $dtZero->diff($dtTime)->format('%a days, %h hours, %i minutes and %s seconds');
+	} elseif (str_contains(PHP_OS, 'Linux')) {
+		return shell_exec('uptime -p');
+	} else {
+		return "Operating System not supported";
+	}
+}
+
+function report_cputemp() { // reports windows/linux cpu temperature
+	if (str_contains(PHP_OS, 'WIN')) {
+		return (intval(shell_exec('powershell "@(Get-WMIObject -Query \"SELECT * FROM Win32_PerfFormattedData_Counters_ThermalZoneInformation\" -Namespace \"root/CIMV2\")[0].HighPrecisionTemperature"'))/10)-273;
+	} elseif (str_contains(PHP_OS, 'Linux')) {
+		if (file_exists ("/sys/class/thermal/thermal_zone0/temp")) {
+			exec("cat /sys/class/thermal/thermal_zone0/temp", $cputemp);
+			return $cputemp[0] / 1000;
+		} else {
+			return 'Cannot be detemined automatically';
+        }
+	} else {
+		return "Operating System not supported";
+	}
+}
+
+function report_cpufreq() { // reports windows/linux cpu frequency
+	if (str_contains(PHP_OS, 'WIN')) {
+		return (explode("=",shell_exec("wmic cpu get currentclockspeed /value")))[1];
+	} elseif (str_contains(PHP_OS, 'Linux')) {
+		if (file_exists ("/sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq")) {
+			exec("cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq", $cpufreq);
+			return $cpufreq[0] / 1000;
+		} else {
+			return 'Cannot be detemined automatically';
+		}
+	} else {
+		return "Operating System not supported";
+	}
+}
+
+function report_cpuutil() { // reports windows/linux cpu utilization
+	if (str_contains(PHP_OS, 'WIN')) {
+		return (explode("=",shell_exec("wmic cpu get loadpercentage /value")))[1]."%";
+	} elseif (str_contains(PHP_OS, 'Linux')) {
+		return utilcpu()."%";
+	} else {
+		return "Operating System not supported";
+	}
+}
+
+function report_freemem() { // reports windows/linux free and total memory and free/total ratio
+	if (str_contains(PHP_OS, 'WIN')) {
+		$mem[0]=intval((explode("=",shell_exec("wmic os get freephysicalmemory /value")))[1]/1024);
+		$mem[1]=intval((explode("=",shell_exec("wmic computersystem get totalphysicalmemory /value")))[1]/(1024*1024));
+		$mem[2]=intval($mem[0]/$mem[1]*100);
+		return $mem;
+	} elseif (str_contains(PHP_OS, 'Linux')) {
+		$memoryinfo = str_getcsv(shell_exec('/usr/bin/free -m | grep "Mem:" | tr -s " "')," ", escape: "\\");
+		$mem[0]=$memoryinfo[2];
+		$mem[1]=$memoryinfo[1];
+		$mem[2]=intval($mem[0]/$mem[1]*100);
+		return $mem;
+	} else {
+		return "Operating System not supported";
+	}
+}
+
+function report_aprsisserver(&$aprsisserverip) { // reports windows/linux aprs-is server
+	global $aprsisserverport;
+	if (str_contains(PHP_OS, 'WIN')) {
+		$aprsisserverip="";
+		$aprsisserverip=shell_exec('netstat -n | findstr /r /c:"'.$aprsisserverport.' *ESTABLISHED"');
+		if ($aprsisserverip!="") {
+			$aprsisserverip=(explode(":",(explode(" ",preg_replace('/\s\s+/', ' ', trim($aprsisserverip))))[2]))[0];//array with only ip and port
+			return '<a href="http://'.$aprsisserverip.':14501" target="_new">'.$aprsisserverip.'</a>';
+		} else {
+			return '<span class="notrunning">Not connected</span>';
+		}
+	} elseif (str_contains(PHP_OS, 'Linux')) {
+		$aprsisserverip = shell_exec('netstat -n | grep '.$aprsisserverport.' | grep ESTABLISHED | head -n 1 | tr -s " " | cut -f 5 -d " " | cut -f 1 -d ":" | tr -d "\n"');
+		if (strlen($aprsisserverip)>0) {
+			return '<a href="http://'.$aprsisserverip.':14501" target="_new">'.$aprsisserverip.'</a>';
+		} else {
+			return '<span class="notrunning">Not connected</span>';
+		}
+	} else {
+		return "Operating System not supported";
+	}
+}
+
+function report_direwolfstatus() { // reports windows/linux direwolf running status
+	if (str_contains(PHP_OS, 'WIN')) {
+		if (str_contains(shell_exec('powershell "@(get-process direwolf)[0].ProcessName"'),"direwolf")) {
+			return '<span class="running">Running</span>';
+		} else {
+			return '<span class="notrunning">Not running</span>';
+		}
+	} elseif (str_contains(PHP_OS, 'Linux')) {
+		$direwolfsts = shell_exec('systemctl is-active direwolf');
+		if(str_starts_with($direwolfsts, "active")) {
+			return '<span class="running">Running</span>'; 
+		} else {
+			return '<span class="notrunning">Not running</span>';
+		}
+	} else {
+		return "Operating System not supported";
+	}
+}
+
+function report_clientips() { // reports windows/linux client ip addresses
+	$clientipshtml = NULL;
+	global $clientiplookuphost;
+	if (str_contains(PHP_OS, 'WIN')) {
+		$error=NULL;
+		$netstatout=NULL;
+		$i=0;
+		$clientips=NULL;
+		exec('netstat -n | findstr ":80.*:.*ESTABLISHED :443.*:.*ESTABLISHED"',$netstatout,$error); //elements of array are a netstat rows
+		if ($error==false) {
+			foreach ($netstatout as $netstatrow) {
+				$clientips[$i]=(explode(":",(explode(" ",preg_replace('/\s+/', ' ',trim($netstatrow))))[2]))[0];
+				$i++;
+			}
+			$clientips=array_unique($clientips); //delete duplicates
+			foreach ($clientips as $clientip) {
+				$clientipshtml.='<a href="'.$clientiplookuphost.$clientip.'" target="_new">'.$clientip."</a><br>";
+			}
+		} else {
+			$clientipshtml="Cannot be determined";
+		}
+		return $clientipshtml;
+	} elseif (str_contains(PHP_OS, 'Linux')) {
+		$clientips = array_unique(explode("\n",substr(shell_exec('/usr/bin/ss -t -a | grep ESTAB | tr -s " " | cut -f 2 -d ":" | grep http | cut -f 2 -d " "'),0,-1)));
+		$clientipshtml="";
+		foreach ($clientips as $clientip) { $clientipshtml.='<a href="'.$clientiplookuphost.$clientip.'" target="_new">'.$clientip."</a><br>"; }
+		return $clientipshtml;
+	} else {
+		return "Operating System not supported";
+	}
+}

@@ -16,7 +16,7 @@ $refresh = 5000;
 $dashboarddescription = "Direwolf APRS Web Dashboard";
 
 // for header.php and about.php: displays version of the APRS dashboard web interface
-$dashboardversion = "20250314 beta";
+$dashboardversion = "20250316 beta";
 
 // for system.php: if direwolf version cannot be determined via installed apt package, manually enter direwolf version here
 $direwolfversion = "1.7";
@@ -33,7 +33,7 @@ $aprsisserverport = 14580;
 // for aprsis.php: IP port of APRS-IS status information web interface, default = 14501
 $aprsiswebserverport = 14501;
 
-// for functions.php: path of the direwolf log directory, without file name
+// for functions.php: path of the direwolf log directory, without file name. for Linux: user slashes ("/") and end with a slash ("/"); for Windows: use double backslashes ("\\") and do NOT end with a double backslash ("\\")
 $logpath = "/var/log/direwolf/";
 
 // for functions.php: log file name, the standard Y-m-d.log file name (generated every day by direwolf) will be used if empty
@@ -47,7 +47,7 @@ $stationlon = 04.00000;
 $interfaces = array(0,1,2,3,4,5,6,7,8,9,10);
 
 // for chgif.php: one interface description per defined interface index, unused intermediate interfaces should be added, empty descriptions will not be displayed in list
-$intdesc = array("RTL-SDR","","Shari SA818","","ICOM IC-9700","","AIOC","","Jabra MS40","","ICOM IC-7300");
+$intdesc = array("RTL-SDR","","ICOM IC-9700","","ICOM IC-7300","","Shari SA818","","AIOC","","Jabra MS40");
 
 // for initialize.php: when 1 do not show interface selection at startup
 $static_if = 1;
@@ -59,7 +59,7 @@ $static_if_index = 0;
 $logourl = "direwolflogo.png";
 
 // for index.php: displays distance in miles when 1 or in km when 0
-$miles = 0; 
+$miles = 0;
 
 // for traffic.php: amount of last rows to be displayed when starting traffic monitorr
 $startrows = 10;
@@ -79,7 +79,7 @@ $sysops = "PE4KH,N0CALL,PA1JRN,PD3RFR,PD0CL,PA1RBZ,PI1UTR,PD2BAS";
 // for igate.php: API key from aprs.fi for retrieving last heard beacon information
 $apikey = "xxxxxxxxxxxxxxxxxxxxxxxx";
 
-// for viewer.php: directory to Direwolf console logfile
+// for viewer.php: directory to Direwolf console logfile. for linux: user slashes ("/") in the path; for windows: use double backslashes ("\\") in the path
 $consolelog = "/var/log/direwolf/console.log";
 
 // for viewer.php: display or hide timestamp announcement of updates of console logfile, default 1
@@ -93,27 +93,34 @@ $ajaxupdatehtml = array("index.php","system.php","frames.php","igate.php");
 $ajaxupdateappend = array("viewer.php","traffic.php");
 
 /*
-Example startup command for Direwolf with console output redirection to console.log file: /usr/bin/direwolf -c /etc/direwolf.conf -l /var/log/direwolf -daknpwtoihfxd - > /var/log/direwolf/console.log
+Example startup command for Direwolf with specification of packet logfiles directory and Direwolf Console output redirection to console.log file:
+
+** LINUX   -> /usr/bin/direwolf -c /etc/direwolf.conf -l /var/log/direwolf -daknpwtoihfxd - > /var/log/direwolf/console.log
+
+** WINDOWS -> direwolf.exe -c "C:\direwolf\direwolf.conf" -l "C:\direwolf\logs" -daknpwtoihfx - > "C:\direwolf\logs\console.log"
 
 Depending on debug options turned on, console.log can become very big over time! Restarting direwolf empties console.log so implementing scheduled restarts and/or limiting debug options is suggested
 
-Direwolf debug options (from Direwolf manual):
+Direwolf debug options (from Direwolf manual version 1.7):
 
-    -d x   Debug options.  Specify one or more of the following in place of x.
-                     a = AGWPE network protocol client.
-                     k = KISS serial port client.
-                     n = Network KISS client.
-                     u = Display non-ASCII text in hexadecimal.
-                     p = Packet dump in hexadecimal.
-                     g = GPS interface.
-                     W = Waypoints for position or object reports.
-                     t = Tracker beacon.
-                     o = Output controls such as PTT and DCD.
-                     i = IGate
-                     h = Hamlib verbose level.  Repeat for more.
-                     m = Monitor heard station list.
-                     f = Packet filtering.
-                     x = FX.25 increase verbose level.
+    -d             Debug options:
+       a             a = AGWPE network protocol client.
+       k             k = KISS serial port or pseudo terminal client.
+       n             n = KISS network client.
+       u             u = Display non-ASCII text in hexadecimal.
+       p             p = dump Packets in hexadecimal.
+       g             g = GPS interface.
+       w             w = Waypoints for Position or Object Reports.
+       t             t = Tracker beacon.
+       o             o = output controls such as PTT and DCD.
+       i             i = IGate.
+       m             m = Monitor heard station list.
+       f             f = packet Filtering.
+       x             x = FX.25 increase verbose level.
+       2             2 = IL2P.
+       d             d = APRStt (DTMF to APRS object translation).
+
+
 */
 
 ?>

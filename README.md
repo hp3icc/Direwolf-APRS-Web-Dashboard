@@ -1,4 +1,4 @@
-# Direwolf-APRS-Web-Dashboard
+# Direwolf APRS Web Dashboard for Linux and Windows
 
 This Direwolf APRS Web Dashboard offers all kinds of information for both Operators and Users of a Direwolf-based APRS iGate node, which is not easily visible through a user interface of Direwolf itself.
 
@@ -34,9 +34,9 @@ This dashboard is made by Michael PC7MM and Richard PD3RFR and finds it roots in
 
 - One configuration file that contains all adjustable parameters
 
-This version is developed and tested on a Raspberry Pi Model 4b with Debian GNU/Linux 12 (bookworm) but will most likely also function on other linux-based operating systems. It is not yet tested on Windows-based hosts.
+This version is developed and tested on a Raspberry Pi Model 4b with Debian GNU/Linux 12 (bookworm) with lighttp and PHP 8, and is tested on Microsoft Windows 10 with Abyss Web Server X1 and PHP 8 as well.
 
-## Instructions for installation and configuration
+## Instructions for installation and configuration on Linux
 
 Since every single setup is differrent, universal installation and configuration instructions cannot easily be given. Having stated that as a disclaimer, the instructions as mentioned below serve as a guideline and will most likely result in a running Direwolf APRS Web Dashboard on Debian-based hosts.
 
@@ -58,7 +58,7 @@ Install and configure lighttpd, a lightweight webserver:
 
     sudo service lighttpd force-reload
 
-Clone all files of this repository to your home directory and copy the files in the "code" folder to /var/www/html/
+Download or clone all files of this repository to your home directory and copy the files in the "code" folder to /var/www/html/
 
 	sudo git clone https://github.com/PC7MM/Direwolf-APRS-Web-Dashboard ~/Direwolf-APRS-Web-Dashboard 
 
@@ -72,10 +72,31 @@ Change the Direwolf startup command to request Direwolf creating both packet log
 
 	/usr/bin/direwolf -c /etc/direwolf.conf -l /var/log/direwolf -daknpwtoihfxd - > /var/log/direwolf/console.log
 
+## Instructions for installation and configuration of Windows
+
+Download the Abyss X1 Web Server via https://aprelium.com/abyssws/download.php and run the installer
+
+Enable PHP support for the Abyss X1 Webserver as explained on https://aprelium.com/abyssws/php.html
+
+Download or clone all files of this repository to the Downloads directory and copy the files in the "code" folder to C:\Abyss Web Server\htdocs\
+
+        git clone https://github.com/PC7MM/Direwolf-APRS-Web-Dashboard C:\users\<user>\Downloads\Direwolf-APRS-Web-Dashboard
+
+        copy C:\users\<user>\Downloads\Direwolf-APRS-Web-Dashboard\code\*.* C:\Abyss Web Server\htdocs\
+
+Open config.php and carefully adjust the parameters as needed for your specific situation. 
+
+        notepad C:\Abyss Web Server\htdocs\config.php
+
+Change the Direwolf startup command to request Direwolf creating both packet logfiles and a console logfile, for example:
+
+	direwolf.exe -c "C:\direwolf\direwolf.conf" -l "C:\direwolf\logs" -daknpwtoihfx - > "C:\direwolf\logs\console.log"
+
+Direwolf for Windows might write console output in a 4kB output buffer instead of writing it directly to the console logfile. If such a buffer is being used, information in the Web Console Viewer will only be updated after Direwolf flushes that buffer.
+
 ## Instruction video
 
 PD3RFR and PC7MM made a video that explains how to setup an RX-only iGate with RTL-SDR from scratch. This video was made before this Direwolf APRS Web Dashboard was made, so it is not refered to in the video. The video explains however how direwolf_webstat as made by Alfredo IZ7BOJ needs to be installed, and this procedure is equal to installing this Direwolf APRS Web Dashboard. If you are interested, see: https://www.youtube.com/watch?v=tuR0dZxdv1o 
-
 
 ## Disclaimer
 

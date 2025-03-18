@@ -6,7 +6,7 @@
 include 'initialize.php';
 
 if (isset($_SESSION['callsign'])) $callsign = $_SESSION['callsign']; else $callsign="";
-$header = str_getcsv($logfile[0],escape: "\\");
+if (!empty($logfile)) $header = str_getcsv($logfile[0],escape: "\\"); else $header=[];
 $framesoninterface=0;
 
 $htmloutput='<th>Date</th><th class="onload-sort order-by-desc">Time(Z)</th>';
@@ -38,7 +38,7 @@ if (isset($_GET['ajax'])) {
 	echo('<B>'.$framesoninterface.'</B> frames on Radio Interface <B>'.$intdesc[$if].'</B> for callsign containing: "<B>'.$callsign.'</B>" | ');
 	echo('Refresh Rate: <B>'.$refresh.' msec.</B><BR><BR>');
 
-     	if(count($logfile)>0) {
+  	if(count($logfile)>0) {
 		echo('<script src="table-sort.min.js"></script>');
 		echo('<table class="normaltable framestable table-sort table-arrows">');
 	        echo('<tbody>');

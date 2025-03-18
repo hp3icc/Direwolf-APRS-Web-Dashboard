@@ -1,4 +1,4 @@
-<?php 
+<?php
 // This file is part of the Direwolf APRS Web Dashboard as available at https://github.com/PC7MM/Direwolf-APRS-Web-Dashboard
 // Developed by Michael PC7MM and Richard PD3RFR as an extension of https://github.com/IZ7BOJ/direwolf_webstat and https://github.com/IZ7BOJ/APRS_dashboard as developed by Alfredo IZ7BOJ
 // See config.php for adjustable parameters and see https://www.youtube.com/watch?v=7bMf7rWCfnE for more information
@@ -8,6 +8,10 @@ include 'config.php';
 include 'functions.php';
 
 if (str_contains($_SERVER['PHP_SELF'],"traffic.php")) $_SESSION['daysback']=0; // go to logfile of today if traffic monitor is to be loaded
+
+if (!isset($_SESSION['daysback'])) $_SESSION['daysback']=0;
+
+if (!isset($_SESSION['showedbufferwarning'])) $_SESSION['showedbufferwarning']=0;
 
 if(!isset($_SESSION['if'])) {
 	if ($static_if==1) {
@@ -24,7 +28,7 @@ $if = $_SESSION['if'];
 
 if (isset($_GET['time']) and ($_GET['time'] !== "")) $_SESSION['timevalue'] = strip_tags(substr($_GET['time'],0,2));
 
-if (isset($_GET['daysback']) and ($_GET['daysback'] !== "")) $_SESSION['daysback'] = strip_tags(substr($_GET['daysback'],0,2)); else if (!isset($_GET['ajax'])) $_SESSION['daysback']=0;
+if (isset($_GET['daysback']) and ($_GET['daysback'] !== "")) $_SESSION['daysback'] = strip_tags(substr($_GET['daysback'],0,2)); // else if (!isset($_GET['ajax'])) $_SESSION['daysback']=0;
 
 if (isset($_GET['getcall'])) $_SESSION['callsign'] = strip_tags(substr($_GET['getcall'],0,9));
 

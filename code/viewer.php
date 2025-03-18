@@ -19,7 +19,11 @@ if (isset($_GET['ajax'])) {
         if (filesize($consolelog) > $_SESSION['offsetfile'])  {
 		$_SESSION['offsetfile'] = filesize($consolelog);
 		if (substr($data,-1)=="\n") { $data=substr($data,0,-1); }
-		$newdata=str_replace("\n","<BR>",$data);
+		if (str_contains(PHP_OS, 'WIN')) {
+			$newdata=str_replace("\n\r","<BR>",$data);
+		} else {
+			$newdata=str_replace("\n","<BR>",$data);
+		}
 		if ($display_datestamps==1) {
 			$newdata.="<BR><div class=\"fileupdated\">".date('d-m-y h:i:s')." | File updated | New file size: ".filesize($consolelog)." | ";
 			$newdata.="Read from file: ".(filesize($consolelog)-$readbytes)." new bytes</div><BR>";
@@ -44,9 +48,15 @@ include('menu.php');
 Enable <b>automatic scroll down</b> after every refresh <input id="scrolldown" name="scrolldown" type="checkbox" checked>
 
 </div>
+<?php
+	if (str_contains(PHP_OS, 'WIN') and $_SESSION['showedbufferwarning']!=1) {
+		echo '<script>window.alert("Direwolf for Windows might write console output in a 4kB output buffer instead of writing it directly to the console logfile. If such a buffer is being used, information in this Console Viewer will only be updated after Direwolf flushes that buffer.");</script>';
+		$_SESSION['showedbufferwarning']=1;
+	}
+?>
 <BR><div class="startedlogging">
 <?php
-	if (filesize($consolelog)>0) $consolelogsize=filesize($consolelog); else $consolelogsize="0";
+	if (is_file($consolelog) and filesize($consolelog)>0) $consolelogsize=filesize($consolelog); else $consolelogsize="0";
 	echo(date('d-m-y h:i:s')." | File: ".$consolelog." | File size: ".$consolelogsize." bytes | Max bytes read from file per update: ".$maxreadbytes);
 ?>
 </div>
