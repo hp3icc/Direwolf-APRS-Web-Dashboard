@@ -197,7 +197,11 @@ function report_direwolfversion() { // reports windows/linux direwolf version
 	} elseif (str_contains(PHP_OS, 'Linux')) {
 		if ($direwolfversion=="") {
 			$direwolfver = shell_exec ("apt-cache policy direwolf | grep -m 1 'Installed' | cut -d ' ' -f 4");
-			if (str_contains($direwolfver,"(none)")) return '<span class="notrunning">Cannot be determined, please specify manually in config.php</span>';
+			if (str_contains($direwolfver,"(none)")) {
+				return '<span class="notrunning">Cannot be determined, please specify manually in config.php</span>';
+			} else {
+				return $direwolfver;
+			}
 		} else {
 			return $direwolfversion;
 		}
