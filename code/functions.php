@@ -80,6 +80,7 @@ function stationparse($frame) { //function for parsing station information
 	global $time;
 	global $distance;
 	global $bearing;
+	global $speed;
 	global $if;
 	global $framesoninterface;
 
@@ -100,6 +101,10 @@ function stationparse($frame) { //function for parsing station information
 				haversine($frame);
 				$receivedstations[$stationcall][2] = $distance; //add last distance
 				$receivedstations[$stationcall][3] = $bearing; //add last bearing
+				$receivedstations[$stationcall][4] = $speed; // add last speed
+				$receivedstations[$stationcall][5] = $frame[10]; // add last latitude
+				$receivedstations[$stationcall][6] = $frame[11]; // add last longitude
+
 			}
 			if($frame[12]==NULL) { //if speed is not null, it's a static station
 				if(!in_array($stationcall, $staticstations)) {
@@ -128,11 +133,13 @@ function haversine($frame) { // function for calculating distance between own an
 	global $stationlon;
 	global $distance;
 	global $bearing;
+	global $speed;
 	global $declat;
 	global $declon;
 
 	$declat = $frame[10];
 	$declon = $frame[11];
+	$speed = $frame[12];
 
 	//haversine formula for distance calculation
 	$latFrom = deg2rad($stationlat);

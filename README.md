@@ -2,16 +2,18 @@
 
 This Direwolf APRS Web Dashboard offers all kinds of information for both Operators and Users of a Direwolf-based APRS iGate node, which is not easily visible through a user interface of Direwolf itself.
 
-The dashboard aggregates and visualizes information from the the Direwolf radio interface packet logfiles, from the Direwolf console, from aprs.fi and aprsdirect.de, from the connected APRS-IS server, and from the Linux Operating System. See this video for an introduction to the dashboard: https://www.youtube.com/watch?v=7bMf7rWCfnE
+The dashboard aggregates and visualizes information from the the Direwolf radio interface packet logfiles, from the Direwolf console, from aprs.fi and aprsdirect.de, from the connected APRS-IS server, and from the Linux Operating System. See this video for an introduction to the initial version of the dashboard: https://www.youtube.com/watch?v=7bMf7rWCfnE
 
 This dashboard is made by Michael PC7MM and Richard PD3RFR and finds it roots in the code of Alfredo IZ7BOJ, who developed direwolf_webstat in 2021 and APRS_dashboard in 2018, and with this we express our gratitude for his work and inspiration! Alfredo can be found on github via https://github.com/IZ7BOJ
 
+![screen1](./screenshots/01a. Home APRS channel.jpg)
+See the bottom of this page for more screenshots!
 
 ## Main features of the Direwolf APRS Web Dashboard
 
 (See the screenshots in the repository for details)
 
-- Show aggregated and detailed information per heard station 
+- Show aggregated and detailed information per heard station in tables and on maps
 - Show static/moving indicator and via indicator (digi and/or direct)
 - Show several Node and Operating System related status information
 - Show IP addresses of viewers of the Direwolf APRS Web Dashboard
@@ -23,6 +25,7 @@ This dashboard is made by Michael PC7MM and Richard PD3RFR and finds it roots in
 - Show output of the Direwolf console including automatic browser scrolldown 
 - Show a conceptual diagram of the APRS infrastructure
 
+- Ability to display both APRS and AIS information from Direwolf logfiles
 - Ability to browse through actual and past daily Direwolf packet logfiles
 - Ability to customize refresh rate and turn automatic refresh on and off
 - Ability to filter by Direwolf radio interface or to view all channels at once
@@ -104,9 +107,20 @@ The developers have some experience in developing software but are not professio
 
 Best regards, Michael PC7MM & Richard PD3RFR & Alfredo IZ7BOJ
 
-
-
 ## License
 
 This Direwolf APRS Web Dashboard can be freely used and modified for non-commercial purposes, as long as a link the developers (Alfredo IZ7BOJ & Richard PD3RFR & Michael PC7MM) is preserved. Please contact the developers in case of questions related to commercial usage of (parts of) this Direwolf APRS Web Dashboard.
+
+## Screenshots
+
+![screen1](./screenshots/01a. Home APRS channel.jpg)
+![screen2](./screenshots/01b. Home AIS channel.jpg)
+![screen3](./screenshots/02. System Status.jpg)
+![screen4](./screenshots/03. Change Radio Interface.jpg)
+![screen5](./screenshots/04. View Specified Station.jpg)
+![screen6](./screenshots/05. Traffic Monitor.jpg)
+![screen7](./screenshots/06. iGate Monitor.jpg)
+![screen8](./screenshots/07. APRS-IS Server.jpg)
+![screen9](./screenshots/08. Console Viewer.jpg)
+![screen10](./screenshots/09. About.jpg)
 

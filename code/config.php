@@ -16,7 +16,7 @@ $refresh = 5000;
 $dashboarddescription = "Direwolf APRS Web Dashboard";
 
 // for header.php and about.php: displays version of the APRS dashboard web interface
-$dashboardversion = "20250316 beta";
+$dashboardversion = "20250430 beta";
 
 // for system.php: if direwolf version cannot be determined via installed apt package, manually enter direwolf version here
 $direwolfversion = "1.7";
@@ -26,6 +26,12 @@ $sysopcallsign = "yourcallsign";
 
 // for system.php: website URL for displaying information about clients connected
 $clientiplookuphost = "https://www.iplocation.net/?query=";
+
+// for index.php: website URL for displaying APRS station call information
+$aprslookuphost = "https://aprs.fi/?call=";
+
+// for index.php: website URL for displaying AIS maritime vessel information
+$aislookuphost = "https://www.marinetraffic.com/en/ais/details/ships/mmsi:";
 
 // for aprsis.php and for system.php: IP Port of APRS-IS server that is used by Direwolf, default = 14580
 $aprsisserverport = 14580;
@@ -47,7 +53,7 @@ $stationlon = 04.00000;
 $interfaces = array(0,1,2,3,4,5,6,7,8,9,10);
 
 // for chgif.php: one interface description per defined interface index, unused intermediate interfaces should be added, empty descriptions will not be displayed in list
-$intdesc = array("RTL-SDR","","ICOM IC-9700","","ICOM IC-7300","","Shari SA818","","AIOC","","Jabra MS40");
+$intdesc = array("RTL-SDR - 161.975MHz","","ICOM IC-9700 - 144.800MHz","","ICOM IC-7300 - 10.1476MHz","","Shari SA818 - 430.5125MHz","","AIOC APRStt - 431MHz","","Jabra MS40 - Audio");
 
 // for initialize.php: when 1 do not show interface selection at startup
 $static_if = 1;
