@@ -329,35 +329,35 @@ function report_direwolfstatus() {
     }
 }
 
-function report_clientips() { // reports windows/linux client ip addresses
-	$clientipshtml = NULL;
-	global $clientiplookuphost;
-	if (str_contains(PHP_OS, 'WIN')) {
-		$error=NULL;
-		$netstatout=NULL;
-		$i=0;
-		$clientips=NULL;
-		exec('netstat -n | findstr ":80.*:.*ESTABLISHED :443.*:.*ESTABLISHED"',$netstatout,$error); //elements of array are a netstat rows
-		if ($error==false) {
-			foreach ($netstatout as $netstatrow) {
-				$clientips[$i]=(explode(":",(explode(" ",preg_replace('/\s+/', ' ',trim($netstatrow))))[2]))[0];
-				$i++;
-			}
-			$clientips=array_unique($clientips); //delete duplicates
-			foreach ($clientips as $clientip) {
-				$clientipshtml.='<a href="'.$clientiplookuphost.$clientip.'" target="_new">'.$clientip."</a><br>";
-			}
-		} else {
-			$clientipshtml="Cannot be determined";
-		}
-		return $clientipshtml;
-	} elseif (str_contains(PHP_OS, 'Linux')) {
-		$clientips = array_unique(explode("\n",substr(shell_exec('/usr/bin/ss -t -a | grep ESTAB | tr -s " " | cut -f 2 -d ":" | grep http | cut -f 2 -d " "'),0,-1)));
-		$clientipshtml="";
-		foreach ($clientips as $clientip) { $clientipshtml.='<a href="'.$clientiplookuphost.$clientip.'" target="_new">'.$clientip."</a><br>"; }
-		return $clientipshtml;
-	} else {
-		return "Operating System not supported";
-	}
-}
+function report_clientips() {
+    global $clientiplookuphost;
 
+    if (!str_contains(PHP_OS, 'Linux')) {
+        return "OS not supported";
+    }
+
+    // Comando mejorado para extraer IPs de clientes conectados a puertos 80, 8000, 8001
+    $cmd = "netstat -tn | grep ':80 .*ESTABLISHED\\|:443 .*ESTABLISHED' | tr -s ' ' | cut -d ' ' -f5 | cut -d: -f1";
+    $output = shell_exec($cmd);
+    $ips = array_filter(array_map('trim', explode("\n", $output)));
+
+    $clientips = [];
+    foreach ($ips as $ip) {
+        if (filter_var($ip, FILTER_VALIDATE_IP) && !preg_match('/^(127\.0\.0\.1|::1|0\.0\.0\.0)$/', $ip)) {
+            $clientips[] = $ip;
+        }
+    }
+
+    $clientips = array_unique($clientips);
+
+    if (empty($clientips)) {
+        return "No active users";
+    }
+
+    $html = "";
+    foreach ($clientips as $ip) {
+        $html .= '<a href="' . htmlspecialchars($clientiplookuphost . $ip) . '" target="_new">' . htmlspecialchars($ip) . '</a><br>';
+    }
+
+    return $html;
+}
