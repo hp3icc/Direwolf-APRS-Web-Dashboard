@@ -336,7 +336,7 @@ function report_clientips() {
         return "OS not supported";
     }
 
-    // Comando mejorado para extraer IPs de clientes conectados a puertos 80, 8000, 8001
+    // Comando mejorado para extraer IPs de clientes conectados a puertos 80, 443
     $cmd = "netstat -tn | grep ':80 .*ESTABLISHED\\|:443 .*ESTABLISHED' | tr -s ' ' | cut -d ' ' -f5 | cut -d: -f1";
     $output = shell_exec($cmd);
     $ips = array_filter(array_map('trim', explode("\n", $output)));
@@ -361,3 +361,4 @@ function report_clientips() {
 
     return $html;
 }
+
