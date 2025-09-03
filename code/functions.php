@@ -310,23 +310,23 @@ function report_aprsisserver(&$aprsisserverip) { // reports windows/linux aprs-i
 	}
 }
 
-function report_direwolfstatus() { // reports windows/linux direwolf running status
-	if (str_contains(PHP_OS, 'WIN')) {
-		if (str_contains(shell_exec('powershell "@(get-process direwolf)[0].ProcessName"'),"direwolf")) {
-			return '<span class="running">Running</span>';
-		} else {
-			return '<span class="notrunning">Not running</span>';
-		}
-	} elseif (str_contains(PHP_OS, 'Linux')) {
-		$direwolfsts = shell_exec('systemctl is-active direwolf');
-		if(str_starts_with($direwolfsts, "active")) {
-			return '<span class="running">Running</span>'; 
-		} else {
-			return '<span class="notrunning">Not running</span>';
-		}
-	} else {
-		return "Operating System not supported";
-	}
+function report_direwolfstatus() {
+    if (str_contains(PHP_OS, 'WIN')) {
+        if (str_contains(shell_exec('powershell "@(get-process direwolf)[0].ProcessName"'),"direwolf")) {
+            return '<span class="running">Running</span>';
+        } else {
+            return '<span class="notrunning">Not running</span>';
+        }
+    } elseif (str_contains(PHP_OS, 'Linux')) {
+        exec("pgrep -x direwolf", $output, $retval);
+        if ($retval === 0) {
+            return '<span class="running">Running</span>';
+        } else {
+            return '<span class="notrunning">Not running</span>';
+        }
+    } else {
+        return "Operating System not supported";
+    }
 }
 
 function report_clientips() { // reports windows/linux client ip addresses
@@ -360,3 +360,4 @@ function report_clientips() { // reports windows/linux client ip addresses
 		return "Operating System not supported";
 	}
 }
+
